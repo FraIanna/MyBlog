@@ -1,0 +1,53 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()" *ngIf="!isSmallScreen">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="fw-bold mat-headline-2 px-5 my-0">BLOG</span>
+    <a
+      *ngIf="isSmallScreen"
+      routerLink="/Home"
+      routerLinkActive="active-link"
+      class="ms-3 my-nav-link"
+      >Home</a
+    >
+    <span class="menu-spacer"></span>
+    <div *ngIf="isSmallScreen && isLoggedIn" class="flex">
+      <mat-icon>person</mat-icon>
+      <a routerLink="Profile" mat-button>Il mio profilo</a>
+      <a (click)="logout()" mat-button>Esci</a>
+    </div>
+    <a
+      *ngIf="isSmallScreen && !isLoggedIn"
+      routerLink="Auth/login"
+      routerLinkActive="active-link"
+      class="my-nav-link"
+      >Login</a
+    >
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a *ngIf="!isSmallScreen" href="#" mat-list-item>Home</a>
+      <a *ngIf="!isSmallScreen && isLoggedIn" href="#" mat-list-item>
+        Il mio profilo
+      </a>
+      <a
+        *ngIf="!isSmallScreen && !isLoggedIn"
+        routerLink="Auth/login"
+        routerLinkActive="active-link"
+        mat-list-item
+      >
+        Login
+      </a>
+      <a href="#" mat-list-item>Menu Item 3</a>
+      <a href="#" mat-list-item>Menu Item 4</a>
+      <a href="#" mat-list-item>Menu Item 5</a>
+      <a href="#" mat-list-item>Menu Item 6</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content *ngIf="!isSmallScreen">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

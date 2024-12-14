@@ -1,0 +1,139 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 pt-3">
+      <h1 class="mat-headline-2">Benvenuto "nome utente" se c'è</h1>
+    </div>
+    <div
+      class="col-12 d-flex flex-column align-items-center justify-content-center"
+    >
+      <form (ngSubmit)="redirect()" class="w-100 text-center">
+        <mat-form-field class="search-input" color="primary">
+          <mat-label>Cerca un articolo</mat-label>
+          <input
+            type="search"
+            matInput
+            (input)="onInput($event)"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let a of filteredArticles" [value]="a.title">
+              {{ a.title }}
+            </mat-option>
+            <mat-option
+              *ngIf="
+                filteredArticles.length < articles.length &&
+                filteredArticles.length > 0
+              "
+              (click)="loadMore()"
+            >
+              Mostra di più...
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="row my-container-bg-2 px-0">
+        <aside class="col-4 overflow-hidden vh-100">
+          <div class="d-flex gap-5 flex-column align-items-center">
+            <div class="d-flex justify-content-center">
+              <img
+                src="assets/Images/background.jpg"
+                alt=""
+                class="img-fluid rounded w-75"
+              />
+            </div>
+            <div class="d-flex justify-content-center">
+              <img
+                src="assets/Images/background.jpg"
+                alt=""
+                class="img-fluid rounded w-75"
+              />
+            </div>
+            <div class="d-flex justify-content-center">
+              <img
+                src="assets/Images/background.jpg"
+                alt=""
+                class="img-fluid rounded w-75"
+              />
+            </div>
+          </div>
+        </aside>
+        <div
+          class="col-4 vh-100 overflow-y-scroll"
+          *ngFor="let article of articles"
+          (scroll)="loadMoreArticlesOnScroll()"
+        >
+          <mat-card appearance="outlined">
+            <mat-card-header class="border-bottom">
+              <div mat-card-avatar class="rounded-5 overflow-hidden">
+                <img
+                  [src]="
+                    article.user.image
+                      ? article.user.image
+                      : 'assets/Images/userPlaceholder.jpg'
+                  "
+                  class="img-fluid"
+                />
+              </div>
+              <mat-card-title>{{ article.title }}</mat-card-title>
+              <mat-card-subtitle>
+                <div class="d-flex flex-column">
+                  <p class="mb-0">
+                    {{ article.user.name }} {{ article.user.surname }}
+                  </p>
+                  <p>
+                    {{ article.date | date : "dd/MM/yyyy" }}
+                  </p>
+                </div></mat-card-subtitle
+              >
+            </mat-card-header>
+            <mat-card-content class="py-3">
+              {{ article.content }}
+            </mat-card-content>
+            <img
+              mat-card-image
+              [src]="
+                article.image
+                  ? article.image
+                  : 'assets/Images/userPlaceholder.jpg'
+              "
+            />
+
+            <mat-card-actions align="start" class="d-flex gap-3">
+              <button
+                mat-raised-button
+                class="d-flex justify-content-end"
+                color="primary"
+              >
+                <mat-icon>thumb_up_alt</mat-icon>
+              </button>
+              <button
+                mat-raised-button
+                class="d-flex justify-content-end"
+                color="warn"
+              >
+                <mat-icon>thumb_down_alt</mat-icon>
+              </button>
+            </mat-card-actions>
+            <mat-card-footer class="border-top">
+              <div class="d-flex justify-content-between px-2">
+                <div>
+                  <p>conteggio mi piace</p>
+                </div>
+                <div>
+                  <p>conteggio commenti</p>
+                </div>
+              </div>
+            </mat-card-footer>
+          </mat-card>
+        </div>
+        <div class="col-4">sdfsdf</div>
+      </div>
+    </div>
+  </div>
+</div>

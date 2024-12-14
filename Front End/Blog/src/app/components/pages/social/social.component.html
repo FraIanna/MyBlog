@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 matDialogTitle>Modifica i socials</h1>
+      <mat-divider></mat-divider>
+      <div class="modal-div">
+        <mat-dialog-content>
+          <form [formGroup]="form" (ngSubmit)="updateSocials()">
+            <div class="my-container-bg pb-0 mb-2">
+              <mat-form-field color="primary" class="w-100">
+                <mat-label>Url</mat-label>
+                <input type="text" matInput formControlName="url" />
+              </mat-form-field>
+              <mat-form-field color="primary" class="w-100">
+                <mat-label>Seleziona la piattaforma</mat-label>
+                <mat-select placeholder="Seleziona" formControlName="platform">
+                  <mat-option *ngFor="let s of socialType" [value]="s">
+                    {{ s }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" type="submit">
+              @if(user.socials && user.socials.length > 0){ Aggiorna }
+              @else{Aggiungi}
+            </button>
+          </form>
+          <div class="my-2">
+            <div class="d-flex py-3 my-container-bg">
+              @for (s of user.socials; track $index) { @switch (s.platform) {
+              @case ("Facebook") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-facebook"></i>
+                </a>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="deleteSocial(s.id)"
+                >
+                  elimina
+                </button>
+              </div>
+              } @case ("Instagram") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="deleteSocial(s.id)"
+                >
+                  elimina
+                </button>
+              </div>
+              } @case ("Twitter") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-twitter"></i>
+                </a>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="deleteSocial(s.id)"
+                >
+                  elimina
+                </button>
+              </div>
+              } @case ("Youtube") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-youtube"></i>
+                </a>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="deleteSocial(s.id)"
+                >
+                  elimina
+                </button>
+              </div>
+              } } }
+            </div>
+
+            <button
+              class="mt-2"
+              mat-raised-button
+              color="warn"
+              (click)="deleteSocials()"
+              *ngIf="user.socials && user.socials.length > 0"
+            >
+              Elimina tutti i social
+            </button>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

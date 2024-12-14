@@ -1,0 +1,161 @@
+<div class="container">
+  <div class="row" *ngIf="user">
+    <div class="col-12">
+      <h1 class="mat-headline-3 border-bottom py-3">Il mio profilo</h1>
+    </div>
+    <div class="col-12">
+      <div class="row my-container-bg mx-3 mx-md-0">
+        <div class="col-3 col-md-3">
+          <div class="d-flex flex-column align-items-center gap-3">
+            <div class="circle">
+              <mat-icon>edit</mat-icon>
+              <img
+                [src]="
+                  user.image ? user.image : 'assets/Images/userPlaceholder.jpg'
+                "
+                alt="user image"
+                class="img-fluid"
+              />
+            </div>
+            <div class="d-flex flex-column flex-md-row gap-2 fs-3 icons">
+              @for (s of user.socials; track $index) { @switch (s.platform) {
+              @case ("Facebook") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-facebook"></i>
+                </a>
+              </div>
+              } @case ("Instagram") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-instagram"></i>
+                </a>
+              </div>
+              } @case ("Twitter") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </div>
+              } @case ("Youtube") {
+              <div class="d-flex flex-column gap-2">
+                <a [href]="s.url" class="d-flex justify-content-center">
+                  <i class="bi bi-youtube"></i>
+                </a>
+              </div>
+              } } }
+            </div>
+            <button mat-raised-button (click)="openSocialDialog()">
+              @if (user.socials && user.socials.length > 0) { Modifica link
+              Social } @else { Aggiungi link social }
+            </button>
+          </div>
+        </div>
+        <div class="col-9 col-md-9">
+          <h3 class="mat-headline-4 mb-2">
+            <span>
+              {{ user.name }}
+            </span>
+            <span>
+              {{ user.surname }}
+            </span>
+          </h3>
+          <p class="mat-caption">COSA SONO</p>
+          <div class="my-container">
+            <h3>Biografia</h3>
+            <form
+              [formGroup]="form"
+              #biographyForm="ngForm"
+              (ngSubmit)="updateBiography()"
+            >
+              <textarea
+                *ngIf="user"
+                formControlName="biography"
+                [readonly]="readonly"
+                [value]="user.biography"
+                class="w-100 rounded mb-2"
+                [ngClass]="isVisible ? 'not-selected' : 'selected'"
+                rows="8"
+              ></textarea>
+            </form>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="changeStatus()"
+              [ngClass]="isVisible ? 'd-inline-block' : 'd-none'"
+            >
+              Modifica Biografia
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="biographyForm.ngSubmit.emit()"
+              [ngClass]="!isVisible ? 'd-inline-block' : 'd-none'"
+            >
+              Conferma
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              class="ms-3"
+              (click)="openDialog()"
+            >
+              Aggiungi un articolo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 mt-5">
+      <div class="my-container-bg">
+        <h3 class="mat-headline-4 mb-2">Post più recenti</h3>
+        <div class="row">
+          <div class="col-12" *ngFor="let a of userArticles">
+            <mat-card appearance="outlined">
+              <mat-card-header class="border-bottom">
+                <div mat-card-avatar class="rounded-5 overflow-hidden">
+                  <img
+                    [src]="
+                      a.image ? a.image : 'assets/Images/userPlaceholder.jpg'
+                    "
+                    class="img-fluid"
+                  />
+                </div>
+                <mat-card-title>{{ a.title }}</mat-card-title>
+                <mat-card-subtitle>
+                  <div class="d-flex flex-column">
+                    <p class="mb-0">{{ a.user.name }} {{ a.user.surname }}</p>
+                    <p>
+                      {{ a.date | date : "dd/MM/yyyy" }}
+                    </p>
+                  </div>
+                </mat-card-subtitle>
+              </mat-card-header>
+              <div>
+                <img
+                  class="img-fluid"
+                  mat-card-image
+                  src="assets/Images/userPlaceholder.jpg"
+                />
+              </div>
+              <mat-card-content class="py-3">
+                {{ a.content }}
+              </mat-card-content>
+              <mat-card-footer class="border-top">
+                <div class="d-flex justify-content-between px-2">
+                  <div>
+                    <p>conteggio mi piace</p>
+                  </div>
+                  <div>
+                    <p>conteggio commenti</p>
+                  </div>
+                </div>
+              </mat-card-footer>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

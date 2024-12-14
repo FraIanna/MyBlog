@@ -1,0 +1,12 @@
+#all {
+  background-image: url(../../../assets/Images/wallpaperflare.com_wallpaper.jpg);
+  background-size: cover;
+  background-position: left 100% top 100%;
+  @media screen and (max-width: 575px) {
+    background-position: bottom 100% right 70%;
+  }
+}
+
+.container {
+  min-height: 80vh;
+}

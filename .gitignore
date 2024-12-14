@@ -1,0 +1,90 @@
+# .NET and C#
+## Compiled Binary Folders
+bin/
+obj/
+
+## User-Specific Files
+*.user
+*.suo
+*.rsuser
+*.vcxproj.user
+*.pdb
+*.dbcache*
+*.bin
+*.json
+*.config
+
+## Visual Studio Code
+.vscode/
+.vs/
+
+## Logs
+*.log
+logs/
+Debug/
+Release/
+
+## Configuration Files
+appsettings*.json
+
+## Packages
+packages/
+*.nupkg
+*.snupkg
+
+## Entity Framework Migrations
+Migrations/
+
+## Other generated files
+*.generated.cs
+
+## IIS and Web Deployment
+.publish/
+*.publishsettings
+*.pubxml
+*.scffxml
+
+# Angular
+## Node Modules
+node_modules/
+
+## Compiled Files
+dist/
+build/
+
+## Angular Specific Files
+.angular/
+environments/
+
+## Temporary and Debugging Files
+*.tmp
+*.temp
+*.log
+*.md
+## Environment Files
+src/environments/environment*.ts
+
+## IDE Configurations
+.idea/
+*.iml
+
+## Test Results
+coverage/
+*.spec.js
+*.spec.ts
+test-output/
+
+# Common
+## OS Generated Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+## IDE or Editor Specific Files
+*.code-workspace
+*.editorconfig
+
+## Lock files (optional)
+package-lock.json
+yarn.lock
