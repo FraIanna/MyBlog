@@ -1,4 +1,5 @@
-﻿using BlogApi.Context;
+﻿using Azure.Core;
+using BlogApi.Context;
 using BlogApi.DataLayer.Entities;
 using BlogApi.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,6 @@ namespace BlogApi.BuisinessLayer
         //metodo per la creazione di un articolo
         public async Task<Article> CreateAsync(ArticleDto dto, ClaimsPrincipal userPrincipal)
         {
-            //var claims = userPrincipal.Claims.Select(c => $"{c.Type}: {c.Value}");
-            //Console.WriteLine("Claims in CreateAsync: " + string.Join(", ", claims));
-
             var userIdString = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (userIdString == null)
@@ -51,12 +49,37 @@ namespace BlogApi.BuisinessLayer
                 throw new KeyNotFoundException("Category not found");
             }
 
+            string? imagePath = null;
+
+            if (dto.ImageFile != null)
+            {
+                var uploadsFolder = Path.Combine("wwwroot", "uploads", "articles");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = $"{Guid.NewGuid()}_{dto.ImageFile.FileName}";
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName); 
+
+                using(var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await dto.ImageFile.CopyToAsync(stream);
+                }
+
+                imagePath = Path.Combine("uploads", "articles", uniqueFileName).Replace("\\".ToString(), "/");
+
+                var baseUrl = "https://localhost:7094";
+                imagePath = $"{baseUrl}/{imagePath}";
+
+                Console.WriteLine($"File salvato in: {filePath}");
+
+            }
+
             var article = new Article
             {
                 Title = dto.Title,
                 Content = dto.Content,
                 Category = category,
-                User = user
+                User = user,
+                ImagePath = imagePath
             };
 
             _dataContext.Add(article);
@@ -115,6 +138,7 @@ namespace BlogApi.BuisinessLayer
             }
 
             return await _dataContext.Articles
+                .Include(a => a.Category)
                 .Where(a => a.User.Id == user.Id)
                 .ToListAsync();
         }

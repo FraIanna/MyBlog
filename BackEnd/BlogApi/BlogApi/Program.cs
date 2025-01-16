@@ -3,6 +3,7 @@ using BlogApi.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -87,19 +88,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.Use(async (context, next) =>
-//{
-//    context.Request.EnableBuffering();
-//    using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
-//    {
-//        var body = await reader.ReadToEndAsync();
-//        context.Request.Body.Position = 0;
-//        Console.WriteLine($"Request Body: {body}");
-//    }
-//    await next();
-//});
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request Path: {context.Request.Path}");
+    await next.Invoke();
+});
 
-
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

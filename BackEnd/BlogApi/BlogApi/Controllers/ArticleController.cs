@@ -84,7 +84,7 @@ namespace BlogApi.Controllers
 
         [Authorize]
         [HttpPost("create")]
-        public async Task<ActionResult> CreateArticle([FromBody]ArticleDto model)
+        public async Task<ActionResult> CreateArticle([FromForm]ArticleDto model)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace BlogApi.Controllers
                 existingArticle.Title = article.Title;
                 existingArticle.Content = article.Content;
                 existingArticle.Category = article.Category;
-                existingArticle.Image = article.Image;
+                existingArticle.ImagePath = article.ImagePath;
 
                 await articleService.UpdateAsync(existingArticle);
 
@@ -141,6 +141,6 @@ namespace BlogApi.Controllers
             {
                 return BadRequest($"Error: {ex.Message}");
             }
-        }
+        } 
     }
 }

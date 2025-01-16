@@ -17,7 +17,7 @@ namespace BlogApi.DataLayer.Entities
         [Required]
         public required Category Category{ get; set; }
 
-        public byte[]? Image { get; set; }
+        public string? ImagePath { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
 

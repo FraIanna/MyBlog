@@ -14,5 +14,5 @@ export interface iArticle {
   likes?: iLike[];
   comments?: iComment[];
   user: iUser;
-  image?: number[];
+  imagePath?: number[];
 }

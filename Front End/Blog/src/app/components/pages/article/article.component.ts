@@ -1,3 +1,4 @@
+import { iArticle } from './../../../models/i-article';
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from '../../../services/article.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,7 +17,7 @@ export class ArticleComponent implements OnInit {
   fileName: string = '';
   categories: iCategory[] = [];
   user: Partial<iUser> | null = null;
-
+  file!: File;
   constructor(
     private articleSvc: ArticleService,
     private fb: FormBuilder,
@@ -53,26 +54,25 @@ export class ArticleComponent implements OnInit {
 
   // Metodo per gestire il caricamento di un file selezionato dall'utente - in corso -
   onFileSelected(event: Event) {
-    // const file: File = event.target.files[0];
-    // if (file) {
-    //   this.fileName = file.name;
-    //   const formData = new FormData();
-    //   formData.append('Image', file);
-    //   const uploads$ = '';
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.file = input.files[0];
+    } else console.error('error while trying to select the file.');
     // implementare l'upload
   }
 
   // Metodo per creare un articolo.
   createArticle() {
     if (this.form.valid || this.user) {
-      // const formData = this.form.value;
+      const formValue = this.form.value;
 
-      // const articleData = {
-      //   ...formData,
-      //   user: this.user,
-      // };
+      const formData = new FormData();
+      formData.append('title', formValue.title);
+      formData.append('content', formValue.content);
+      formData.append('imageFile', this.file);
+      formData.append('categoryId', formValue.categoryId);
 
-      this.articleSvc.createArticle(this.form.value).subscribe({
+      this.articleSvc.createArticle(formData).subscribe({
         next: (res) => {
           console.log('Article created', res);
           this.dialogRef.close();
@@ -85,6 +85,4 @@ export class ArticleComponent implements OnInit {
       console.error('Invalid form');
     }
   }
-
-  //Nota: elaborare la logica per il caricamento dell'immagine
 }

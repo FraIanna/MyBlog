@@ -117,7 +117,9 @@
                 <div mat-card-avatar class="rounded-5 overflow-hidden">
                   <img
                     [src]="
-                      a.image ? a.image : 'assets/Images/userPlaceholder.jpg'
+                      a.user.image
+                        ? a.user.image
+                        : 'assets/Images/userPlaceholder.jpg'
                     "
                     class="img-fluid"
                   />
@@ -136,8 +138,13 @@
                 <img
                   class="img-fluid"
                   mat-card-image
-                  src="assets/Images/userPlaceholder.jpg"
+                  [src]="
+                    a.imagePath
+                      ? a.imagePath
+                      : 'assets/Images/userPlaceholder.jpg'
+                  "
                 />
+                <!-- risolvere caricamento immagine -->
               </div>
               <mat-card-content class="py-3">
                 {{ a.content }}

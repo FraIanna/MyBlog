@@ -21,7 +21,7 @@ export class ArticleService {
     return this.http.get<iArticle>(`${this.articleUrl}/${id}`);
   }
 
-  createArticle(article: iArticle): Observable<iArticle> {
+  createArticle(article: iArticle | FormData): Observable<iArticle> {
     return this.http.post<iArticle>(`${this.articleUrl}/create`, article);
   }
 
